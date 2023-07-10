@@ -1,6 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 class CardInfo{
   late String _title;
-  late String _image;
+  late File _image;
   late bool _isFavourite;
 
   CardInfo(this._title, this._image, this._isFavourite);
@@ -11,9 +14,9 @@ class CardInfo{
     _isFavourite = value;
   }
 
-  String get image => _image;
+  File get image => _image;
 
-  set image(String value) {
+  set image(File value) {
     _image = value;
   }
 
@@ -21,5 +24,20 @@ class CardInfo{
 
   set title(String value) {
     _title = value;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': _title,
+      'imagePath': _image.path,
+      'isFavourite': _isFavourite,
+    };
+  }
+  factory CardInfo.fromJson(Map<String, dynamic> json) {
+    return CardInfo(
+      json['title'],
+      File(json['imagePath']),
+      json['isFavourite'],
+    );
   }
 }

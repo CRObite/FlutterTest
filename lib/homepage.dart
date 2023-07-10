@@ -1,8 +1,12 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import 'FavouritePart.dart';
 import 'HomePart.dart';
+
 
 
 class HomePage extends StatefulWidget{
@@ -17,31 +21,46 @@ class _HomePageState extends State<HomePage>{
   int selectedIndex = 0;
   final PageController _pageController = PageController();
 
-  static const List<Widget> _widgetOperations = <Widget>[
-    HomePart(),
-    Text("Favourite"),
-  ];
+
   void handleTabChange(int index) {
     setState(() {
       selectedIndex = index;
       _pageController.jumpToPage(selectedIndex);
     });
   }
-
-
+  void swipeChange(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        leading: const Icon(Icons.title),
+        leading: IconButton(
+          onPressed: () {
+            Fluttertoast.showToast(
+                msg: " Ищи в другом месте ) Бугагагагага",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+          },
+          icon: const Icon(Icons.title),
+        ),
         title: const Text("Tiles & Pictures"),
       ),
       body: PageView(
         controller: _pageController,
+        onPageChanged: swipeChange,
         children: const [
           HomePart(),
-          Text("Favourite"),
+          FavouritePart(),
         ],
       ),
 
@@ -79,5 +98,7 @@ class _HomePageState extends State<HomePage>{
       ),
     );
   }
+
+
 
 }
